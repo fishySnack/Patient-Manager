@@ -38,7 +38,7 @@ public class PatientController {
      */
 
     @PostMapping("")
-    public ResponseEntity<PatientResponseDTO> createPatient(@RequestBody @Valid PatientRequestDTO patient) {
+    public ResponseEntity<PatientResponseDTO> createPatient(@Valid @RequestBody PatientRequestDTO patient) {
 
         PatientResponseDTO patientResponseDTO = service.createPatient(patient);
         return ResponseEntity.ok().body(patientResponseDTO);
