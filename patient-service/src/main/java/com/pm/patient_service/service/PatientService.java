@@ -19,6 +19,10 @@ public class PatientService {
         this.repo = repo;
     }
 
+    /**
+     * 
+     * @return all the patients
+     */
     public List<PatientResponseDTO> getPatients() {
         List<Patient> patients = repo.findAll();
         List<PatientResponseDTO> output = new ArrayList<>();
@@ -28,6 +32,11 @@ public class PatientService {
         return output;
     }
 
+    /**
+     * parse into patient object and saves then return patientDTO
+     * 
+     * @return patientDTO
+     */
     public PatientResponseDTO createPatient(PatientRequestDTO patient) {
         Patient newPatient = repo.save(PatientMapper.toModel(patient));
         return PatientMapper.toDTO(newPatient);
