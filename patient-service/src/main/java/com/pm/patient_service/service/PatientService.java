@@ -55,6 +55,10 @@ public class PatientService {
         if (newPatient.isEmpty())
             throw new PatientNotFoundException("Patient not foound with id: " + id);
 
+        if (repo.existsByEmailAndIdNot(patient.getEmail(), id)) {
+            throw new EmailAlreadyExistsException("Email already exist");
+        }
+
         Patient p = newPatient.get();
 
         p.setName(patient.getName());

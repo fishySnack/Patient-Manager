@@ -39,10 +39,13 @@ public class PatientController {
     }
 
     /**
+     * 
+     * validated is a more flexible @Valid. It checks default .class PLUS the
+     * CreatePatientValidationGroup which is registedDate
+     * 
      * @param valid checks if the field matches the requirements
      * @return reponseEntity with patientDTO
      */
-
     @PostMapping("")
     public ResponseEntity<PatientResponseDTO> createPatient(
             @Validated({ Default.class, CreatePatientValidationGroup.class }) @RequestBody PatientRequestDTO patient) {
