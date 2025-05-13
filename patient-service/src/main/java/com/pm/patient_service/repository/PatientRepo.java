@@ -12,5 +12,5 @@ public interface PatientRepo extends JpaRepository<Patient, UUID> {
     boolean existsByEmail(String email);
 
     // search all emails excepts for the id given
-    boolean existsByEmailAndIdNt(String email, UUID id);
+    boolean existsByEmailAndIdNot(String email, UUID id);
 }
