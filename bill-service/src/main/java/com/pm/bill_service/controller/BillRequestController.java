@@ -7,14 +7,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pm.bill_service.request.BillRequest;
 import com.pm.bill_service.response.BillResponse;
+import com.pm.bill_service.service.BillingService;
 
 @RestController
 @RequestMapping("/billing")
 public class BillRequestController {
+    private final BillingService service;
+
+    public BillRequestController(BillingService service) {
+        this.service = service;
+    }
 
     @PostMapping("")
     public BillResponse createBillingAccount(@RequestBody BillRequest request) {
-
-        return null;
+        BillResponse output = service.createBillingAccount(request);
+        return output;
     }
 }

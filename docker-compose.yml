@@ -28,6 +28,13 @@ services:
       SPRING_DATASOURCE_PASSWORD: mypassword
     networks:
       - backend
+  
+  services:
+  bill-service:
+    build: ./bill-service
+    ports:
+      - "8081:8081"
+    container_name: bill-service
 
 networks:
   backend:
