@@ -7,5 +7,6 @@ import lombok.Setter;
 @Getter
 public class BillRequest {
     private String accountId;
-    private double amount;
+    private String name;
+    private String email;
 }

@@ -29,12 +29,15 @@ services:
     networks:
       - backend
   
-  services:
   bill-service:
-    build: ./bill-service
+    build:
+      context: ./bill-service
+      dockerfile: Dockerfile
+    container_name: bill-service
     ports:
       - "8081:8081"
-    container_name: bill-service
-
+    networks:
+      - backend
+    
 networks:
   backend:
