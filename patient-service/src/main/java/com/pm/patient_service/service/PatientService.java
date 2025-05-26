@@ -13,6 +13,7 @@ import com.pm.patient_service.DTO.PatientRequestDTO;
 import com.pm.patient_service.DTO.PatientResponseDTO;
 import com.pm.patient_service.exception.EmailAlreadyExistsException;
 import com.pm.patient_service.exception.PatientNotFoundException;
+import com.pm.patient_service.kafka.KafkaProducer;
 import com.pm.patient_service.mapper.PatientMapper;
 import com.pm.patient_service.model.Patient;
 import com.pm.patient_service.repository.PatientRepo;
@@ -24,10 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 public class PatientService {
     private final PatientRepo repo;
     private final BillServiceClient client;
+    private final KafkaProducer kafkaProducer;
 
-    public PatientService(PatientRepo repo, BillServiceClient client) {
+    public PatientService(PatientRepo repo, BillServiceClient client, KafkaProducer kafkaProducer) {
         this.repo = repo;
         this.client = client;
+        this.kafkaProducer = kafkaProducer;
     }
 
     /**
@@ -55,7 +58,7 @@ public class PatientService {
         Patient newPatient = repo.save(PatientMapper.toModel(patient));
         log.info("right before client call");
         client.createBillingAccount(newPatient.getId().toString(), newPatient.getName(), newPatient.getEmail());
-
+        kafkaProducer.sendEvent(newPatient);
         return PatientMapper.toDTO(newPatient);
     }
 
