@@ -59,6 +59,7 @@ public class PatientService {
         log.info("right before client call");
         client.createBillingAccount(newPatient.getId().toString(), newPatient.getName(), newPatient.getEmail());
         kafkaProducer.sendEvent(newPatient);
+        
         return PatientMapper.toDTO(newPatient);
     }
 
