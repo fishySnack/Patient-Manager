@@ -12,7 +12,7 @@ public class BillingService {
     private static final Logger log = LoggerFactory.getLogger(BillingService.class);
 
     public BillResponse createBillingAccount(BillRequest request) {
-        log.info("createBillingAccount request recieved {}", request.toString());
+        log.info("createBillingAccount request received {}", request.toString());
 
         BillResponse response = BillResponse.builder()
                 .status("PAID").accountId("123").build();

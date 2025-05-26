@@ -35,6 +35,8 @@ public class BillServiceClient {
 
         String url = getBaseUrl() + "/billing";
 
-        return null;// temp
+        BillResponse response = restTemplate.postForObject(url, request, BillResponse.class);
+        log.info("recieved the response from billling service :" + response);
+        return response;
     }
 }

@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.pm.patient_service.BillServiceClient.BillServiceClient;
 import com.pm.patient_service.DTO.PatientRequestDTO;
 import com.pm.patient_service.DTO.PatientResponseDTO;
 import com.pm.patient_service.exception.EmailAlreadyExistsException;
@@ -16,12 +17,17 @@ import com.pm.patient_service.mapper.PatientMapper;
 import com.pm.patient_service.model.Patient;
 import com.pm.patient_service.repository.PatientRepo;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class PatientService {
     private final PatientRepo repo;
+    private final BillServiceClient client;
 
-    public PatientService(PatientRepo repo) {
+    public PatientService(PatientRepo repo, BillServiceClient client) {
         this.repo = repo;
+        this.client = client;
     }
 
     /**
@@ -47,6 +53,9 @@ public class PatientService {
             throw new EmailAlreadyExistsException("Email already exist");
 
         Patient newPatient = repo.save(PatientMapper.toModel(patient));
+        log.info("right before client call");
+        client.createBillingAccount(newPatient.getId().toString(), newPatient.getName(), newPatient.getEmail());
+
         return PatientMapper.toDTO(newPatient);
     }
 
