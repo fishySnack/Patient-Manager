@@ -13,13 +13,15 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "patient", groupId = "analytics-service")
     public void consumeEvent(byte[] event) {
+        log.info("Recieved: {}", new String(event));
+        
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             PatientEvent patientE = objectMapper.readValue(event, PatientEvent.class);
             // preform any buiness related to analytics here ---
             log.info("successfully parse the object PatientEvent");
         } catch (Exception e) {
-            log.error("error parsing object PatientE", e.getMessage());
+            log.error("error parsing object PatientE", e);
         }
     }
 }

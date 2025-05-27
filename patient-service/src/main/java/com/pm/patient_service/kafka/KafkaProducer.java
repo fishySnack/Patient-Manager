@@ -25,6 +25,8 @@ public class KafkaProducer {
         ObjectMapper mapper = new ObjectMapper();
         try {
             kafkaTemplate.send("patient", mapper.writeValueAsBytes(event));
+
+            log.info("sent the event: {}" + event.toString());
         } catch (Exception e) {
             log.error("Failed to send event Kafka", e);
         }
