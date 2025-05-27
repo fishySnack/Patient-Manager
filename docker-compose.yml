@@ -56,6 +56,19 @@ services:
       CLUSTER_ID: V1yqwrnGTbW-l0q0kdzU8Q
     networks:
       - backend
+  
+  analytics-service:
+    build:
+      context: ./analytics-service
+      dockerfile: Dockerfile
+    container_name: analytics-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - kafka
+      - patient-service
+    networks:
+      - backend
     
 networks:
   backend: {}
