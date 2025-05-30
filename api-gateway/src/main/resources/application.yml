@@ -1,0 +1,23 @@
+server:
+    port: 8083
+
+spring:
+    cloud:
+        gateway:
+            routes:
+                ## crud endpoints
+                -   id: patient-service-route
+                    uri: http://patient-service:8080
+                    predicates: ## matches with the request sent to gateway
+                        -   path=/api/patients/**
+                    filters: ## get rid of first prefix api/ 
+                        -   strip-prefix=1 
+                
+                ##docs endpoints
+                -   id: api-docs-patient-route
+                    uri: http://patient-service:8080
+                    predicates:
+                        -   path=/api-docs/patients
+                    filters: ## rewrite req to getting rid of /api-docs/patients to /v3/api-docs
+                        -   rewrite-path=/api-docs/patients,/v3/api-docs
+
