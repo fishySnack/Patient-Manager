@@ -21,7 +21,7 @@ services:
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydb
+      POSTGRES_DB: mydbauth
     ports:
       - "5433:5432"
     volumes:
@@ -97,6 +97,22 @@ services:
     ports:
       - "8083:8083"
     networks: 
+      - backend
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    environment: ## connecting to the posgres-auth db
+      - SPRING_DATASOURCE_PASSWORD=mypassword
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-auth:5432/mydbauth
+      - SPRING_DATASOURCE_USERNAME=myuser
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_SQL_INIT_MODE=always
+    ports:
+      - "8084:8084"
+    networks:
       - backend
 
 volumes:
