@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class LoginResponseDTO {
     // will be JWT token
-    private String token;
+    private final String token;
 
     public LoginResponseDTO(String token) {
         this.token = token;
